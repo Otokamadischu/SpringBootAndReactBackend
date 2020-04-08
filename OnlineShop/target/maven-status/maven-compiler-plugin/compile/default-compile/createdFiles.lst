@@ -1,0 +1,8 @@
+shop\product\ProductService.class
+shop\category\CategoryService.class
+shop\OnlineShop.class
+shop\category\Category.class
+shop\product\Product.class
+shop\product\ProductController.class
+shop\product\ProductRepository.class
+shop\category\CategoryRepository.class
