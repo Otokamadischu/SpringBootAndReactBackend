@@ -22,7 +22,7 @@ public class ProductService {
 		this.productRepository = productRepository;
 	}
 
-	List<Product> findAll() throws MalformedURLException {
+	List<Product> findAll(){
 		
 		return productRepository.findAll();
 	}

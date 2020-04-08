@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import shop.category.Category;
@@ -19,6 +19,7 @@ import shop.category.CategoryService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
+@RequestMapping(value = {"/kobiety","/mezczyzni","/suplementy"})
 public class ProductController {
 	
 	@Autowired
@@ -34,9 +35,9 @@ public class ProductController {
 	}
 	
 	@GetMapping("/{type}/{categoryName}")
-	public List<Product> getProductByTypeAndCategoryId(@PathVariable String type, @PathVariable String categoryName){
+	public List<Product> getProductsByTypeAndCategoryId(@PathVariable String type, @PathVariable String categoryName){
 		Category category = categoryService.findByName(categoryName);
-		return productService.findByTypeAndCategoryId(type, category.getId());
+		return productService.findByTypeAndCategoryId(type, category.getCategoryId());
 	}
 	
 	@GetMapping("/instructors/{name}/courses")

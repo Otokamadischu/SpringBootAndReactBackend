@@ -10,7 +10,7 @@ public class Category {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	Long id;
+	Long categoryId;
 	
 	String name;
 	String description;
@@ -21,19 +21,22 @@ public class Category {
 		
 	}
 	
-	public Category(Long id, String name, String description, Boolean active) {
+	public Category(Long categoryId, String name, String description, Boolean active) {
 		super();
-		this.id = id;
+		this.categoryId = categoryId;
 		this.name = name;
 		this.description = description;
 		this.active = active;
 	}
-	public Long getId() {
-		return id;
+
+	public Long getCategoryId() {
+		return categoryId;
 	}
-	public void setId(Long id) {
-		this.id = id;
+
+	public void setCategoryId(Long categoryId) {
+		this.categoryId = categoryId;
 	}
+
 	public String getName() {
 		return name;
 	}

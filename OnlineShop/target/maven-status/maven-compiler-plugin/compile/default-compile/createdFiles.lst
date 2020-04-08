@@ -3,6 +3,11 @@ shop\category\CategoryService.class
 shop\OnlineShop.class
 shop\category\Category.class
 shop\product\Product.class
+shop\category\CategoryRepository.class
+shop\size\Size.class
 shop\product\ProductController.class
 shop\product\ProductRepository.class
-shop\category\CategoryRepository.class
+shop\product\ManagmentController.class
+shop\color\Color.class
+shop\size\ColorSize.class
+shop\color\ProductColor.class
