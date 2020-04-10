@@ -1,8 +1,11 @@
 package shop.product;
 
+
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shop.category.Category;
 import shop.category.CategoryService;
+import shop.global.GlobalAdvice;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -28,24 +32,37 @@ public class ProductController {
 	@Autowired(required=false)
 	CategoryService categoryService;
 	
-	@GetMapping("/{type}")
-	public List<Product> getProductsByType(@PathVariable String type){
+	@Autowired
+	GlobalAdvice globalAdvice;
+	
+	@GetMapping
+	public List<Product> getProductsByType(HttpServletRequest request){
+		//URL url = new URL(request.getRequestURL().toString());
 		
-		return productService.findAllByType(type);
-	}
-	
-	@GetMapping("/{type}/{categoryName}")
-	public List<Product> getProductsByTypeAndCategoryId(@PathVariable String type, @PathVariable String categoryName){
-		Category category = categoryService.findByName(categoryName);
-		return productService.findByTypeAndCategoryId(type, category.getCategoryId());
-	}
-	
-	@GetMapping("/instructors/{name}/courses")
-	public List<Product> getProducts() throws MalformedURLException{
+		URL url = null;
+		try {
+			url = new URL(request.getRequestURL().toString());
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		return productService.findAll();
-	
+	    String path = url.getPath();
+	    String[] paths = path.split("/");
+
+		//String paths[] = globalAdvice.getPathArray(request);
+		System.out.println(paths[0] + " "+ paths[1]  + " dad");
+		return productService.findAllByType(paths[1]);
 	}
+	
+	@GetMapping("/{categoryName}")
+	public List<Product> getProductsByTypeAndCategoryId(@PathVariable String categoryName, HttpServletRequest request){
+		Category category = categoryService.findByName(categoryName);
+		String paths[] = globalAdvice.getPathArray(request);
+		return productService.findByTypeAndCategoryId(paths[1], category.getCategoryId());
+	}
+	
+
 	
 	@GetMapping("/instructors/{name}/courses/{id}")
 	public Product getSingleProduct(@PathVariable long id) {
