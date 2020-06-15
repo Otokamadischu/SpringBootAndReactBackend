@@ -8,7 +8,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import shop.category.Category;
 import shop.category.CategoryRepository;
+import shop.type.Type;
 
 @Service
 public class ProductService {
@@ -22,9 +24,9 @@ public class ProductService {
 		this.productRepository = productRepository;
 	}
 
-	List<Product> findAll(){
+	List<Product> findProducts(){
 		
-		return productRepository.findAll();
+		return productRepository.findProducts();
 	}
 	
 	List<Product> findByQuantityGreaterThan(int value){
@@ -32,28 +34,37 @@ public class ProductService {
 		return productRepository.findByQuantityGreaterThan(value);
 	}
 	
-	public Optional<Product> findById(long id) {
+	public Optional<Product> findProduct(long id) {
 		
-		return productRepository.findById(id);
+		return productRepository.findProduct(id);
 	}
 
 	public void save(Product product) {
 		
-		productRepository.saveAndFlush(product);
+		productRepository.save(product);
 	}
+	
+	public List<Product> findProductsByType(String typeName){
+		return productRepository.findProductsByType(typeName);
+	}
+	
+	public List<Product> findProductsByCategoryAndType(String typeName, String categoryName){
+		return productRepository.findProductsByCategoryAndType(typeName, categoryName);
+	}
+	
 	
 	public void delete(long id) {
 		
 		productRepository.deleteById(id);
 	}
 
-	public List<Product> findAllByType(String type) {
+	/*public List<Product> findAllByType(String type) {
 
 		return productRepository.findAllByType(type);
-	}
+	}*/
 	
-	public List<Product> findByTypeAndCategoryId(String type, long id){
+	/*public List<Product> findByTypeAndCategoryId(String type, String name){
 		
-		return productRepository.findByTypeAndCategoryId(type, id);
-	}
+		return productRepository.findByType_AndCategory_Name(type, name);
+	}*/
 }

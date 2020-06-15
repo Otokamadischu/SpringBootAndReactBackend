@@ -1,9 +1,22 @@
 package shop.color;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import shop.category.Category;
+import shop.product.Product;
+import shop.type.Type;
 
 @Entity
 public class ProductColor {
@@ -11,18 +24,26 @@ public class ProductColor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long productColorId;
-	Long productId;
-	Long colorId;
+	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "productId", nullable = false)
+	Product product;
+	
+	
+	@OneToMany(mappedBy = "productColor", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+	@JsonIgnore
+    private Set<Color> color;
+
 	
 	public ProductColor(){
 		
 	}
 
-	public ProductColor(Long productColorId, Long productId, Long colorId) {
+	public ProductColor(Long productColorId, Product product) {
 		super();
 		this.productColorId = productColorId;
-		this.productId = productId;
-		this.colorId = colorId;
+
 	}
 
 	public Long getProductColorId() {
@@ -33,20 +54,14 @@ public class ProductColor {
 		this.productColorId = productColorId;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public Long getColorId() {
-		return colorId;
-	}
 
-	public void setColorId(Long colorId) {
-		this.colorId = colorId;
-	}
 	
 }

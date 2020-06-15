@@ -2,12 +2,15 @@ shop\product\ProductService.class
 shop\category\CategoryService.class
 shop\OnlineShop.class
 shop\category\Category.class
+shop\type\TypeRepository.class
 shop\product\Product.class
 shop\global\GlobalAdvice.class
 shop\category\CategoryRepository.class
+shop\type\Type.class
 shop\size\Size.class
 shop\product\ProductController.class
 shop\product\ProductRepository.class
+shop\type\TypeService.class
 shop\product\ManagmentController.class
 shop\color\Color.class
 shop\size\ColorSize.class

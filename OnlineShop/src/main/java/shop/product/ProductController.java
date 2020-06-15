@@ -3,7 +3,10 @@ package shop.product;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,9 +20,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.jsontype.TypeIdResolver;
+
 import shop.category.Category;
 import shop.category.CategoryService;
 import shop.global.GlobalAdvice;
+import shop.type.Type;
+import shop.type.TypeService;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -32,44 +39,55 @@ public class ProductController {
 	@Autowired(required=false)
 	CategoryService categoryService;
 	
+	@Autowired(required=false)
+	TypeService typeService;
+	
 	@Autowired
 	GlobalAdvice globalAdvice;
 	
 	@GetMapping
 	public List<Product> getProductsByType(HttpServletRequest request){
-		//URL url = new URL(request.getRequestURL().toString());
 		
-		URL url = null;
-		try {
-			url = new URL(request.getRequestURL().toString());
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	    String path = url.getPath();
-	    String[] paths = path.split("/");
-
-		//String paths[] = globalAdvice.getPathArray(request);
-		System.out.println(paths[0] + " "+ paths[1]  + " dad");
-		return productService.findAllByType(paths[1]);
+		String paths[] = globalAdvice.getPathArray(request);
+		return productService.findProductsByType(paths[1]);
 	}
 	
 	@GetMapping("/{categoryName}")
-	public List<Product> getProductsByTypeAndCategoryId(@PathVariable String categoryName, HttpServletRequest request){
-		Category category = categoryService.findByName(categoryName);
+	public List<Product> getProductsByTypeAndCategory(@PathVariable String categoryName, HttpServletRequest request){
+		
+		//Category category = categoryService.findByName(categoryName);
 		String paths[] = globalAdvice.getPathArray(request);
-		return productService.findByTypeAndCategoryId(paths[1], category.getCategoryId());
+		
+		/*Type type = new Type((long)1,"kobiety","opis",true);
+		typeService.saveType(type);
+		Type type2 = typeService.findByName(type.getName());
+		Category category = new Category((long)1,type2, "kobiety", "opis", true);
+		
+		categoryService.save(category);
+		Category category2 = categoryService.findByName(categoryName);
+		Product product= new Product((long)1,category2,"kobisjaszi","kob",10,10,10.0,"Nike-spodnie-dresowe.jpg");
+		productService.save(product);*/
+		
+	
+		return productService.findProductsByCategoryAndType(paths[1], paths[2]);
+	}
+	
+	@CrossOrigin
+	@GetMapping("/{categoryName}/{id}")
+	public Optional<Product> getProduct(@PathVariable Long id) {
+
+		return productService.findProduct(id);              
 	}
 	
 
 	
-	@GetMapping("/instructors/{name}/courses/{id}")
+	/*@GetMapping("/instructors/{name}/courses/{id}")
 	public Product getSingleProduct(@PathVariable long id) {
 		//we need to swap this, we will return error page - go to shop project
 		return productService.findById(id).orElse(null);
-	}
+	}*/
 	
+	//update
 	@PutMapping("/instructors/{name}/courses/{id}")
 	public void saveProduct(@PathVariable long id, @RequestBody Product product) {
 		productService.save(product);

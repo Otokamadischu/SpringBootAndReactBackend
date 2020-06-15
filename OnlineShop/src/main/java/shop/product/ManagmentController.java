@@ -3,6 +3,8 @@ package shop.product;
 import java.net.MalformedURLException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import shop.category.Category;
 import shop.category.CategoryService;
+import shop.global.GlobalAdvice;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -23,22 +26,30 @@ public class ManagmentController {
 	
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	GlobalAdvice globalAdvice;
 
 	@GetMapping
 	public List<Product> getProductsManagment(){
-		return productService.findAll();
+		return productService.findProducts();
 	}
 	
 	@GetMapping("/{type}")
-	public List<Product> getProductsManagmentByType(@PathVariable String type) {
-		return productService.findAllByType(type);
+	public List<Product> getProductsManagmentByType(HttpServletRequest request) {
+		
+		String paths[] = globalAdvice.getPathArray(request);
+		
+		return productService.findProductsByType(paths[2]);
 	}
 	
 	
 	@GetMapping("/{type}/{categoryName}")
-	public List<Product> getProductsManagmentByTypeAndCategoryId(@PathVariable String type, @PathVariable String categoryName) {
-		Category category = categoryService.findByName(categoryName);
-		return productService.findByTypeAndCategoryId(type, category.getCategoryId());
+	public List<Product> getProductsManagmentByTypeAndCategoryId(HttpServletRequest request) {
+		
+		String paths[] = globalAdvice.getPathArray(request);
+		
+		return productService.findProductsByCategoryAndType(paths[2], paths[3]);
 	}
 
 }

@@ -1,10 +1,14 @@
 package shop.category;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Set;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+
+import shop.product.Product;
+
+public interface CategoryRepository extends CrudRepository<Category, Long> {
 
 	Category findByName(String name);
-	
 
 }

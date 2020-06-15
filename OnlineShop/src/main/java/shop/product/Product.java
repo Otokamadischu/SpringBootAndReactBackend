@@ -1,25 +1,51 @@
 package shop.product;
 
+import java.io.Serializable;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+import shop.category.Category;
+import shop.color.ProductColor;
+
+
 
 @Entity
-public class Product {
+public class Product implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long productId;
 	
+	@ManyToOne(fetch = FetchType.LAZY, optional=false)
+	@JoinColumn(name = "categoryId", nullable = false)
+	Category category;
+	
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+	@JsonIgnore
+    private Set<ProductColor> productColor;
+	
 	String name;
 	String description;
-	String type;
+
 	int quantity;
 	int size;
 	double price;
-	
-	Long categoryId;
+
+
 	String path;
 	
 	public Product() {
@@ -27,48 +53,19 @@ public class Product {
 	}
 	
 	
-	public Product(Long productId, String name, String description, String type, int quantity, int size, double price,
-			Long categoryId, String path) {
+
+	public Product(Long productId, Category category, String name, String description, int quantity, int size,
+			double price, String path) {
 		super();
 		this.productId = productId;
+		this.category = category;
 		this.name = name;
 		this.description = description;
-		this.type = type;
 		this.quantity = quantity;
 		this.size = size;
 		this.price = price;
-		this.categoryId = categoryId;
 		this.path = path;
 	}
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Long getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(Long categoryId) {
-		this.categoryId = categoryId;
-	}
-	
-	
-
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-
-
 
 
 
@@ -76,11 +73,17 @@ public class Product {
 		return productId;
 	}
 
-
 	public void setProductId(Long productId) {
 		this.productId = productId;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
 
 	public String getName() {
 		return name;
@@ -121,9 +124,15 @@ public class Product {
 	public void setPrice(double price) {
 		this.price = price;
 	}
-	
-	
-	
 
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	
 	
 }

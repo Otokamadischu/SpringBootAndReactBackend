@@ -3,6 +3,9 @@ package shop.global;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -26,5 +29,8 @@ public class GlobalAdvice {
 		
 		return paths;
 	}
+	
+
+
 
 }
