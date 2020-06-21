@@ -13,18 +13,11 @@ import shop.type.Type;
 
 public interface ProductRepository extends CrudRepository<Product, Long>{
 	
-	public List<Product> findByQuantityGreaterThan(int value);
-
-	//public List<Product> findAllByType(String type);
-	
-	//public List<Product> findByTypeAndCategoryId(String type, long id);
-	
-	//public List<Product> findByType_AndCategory_Name(String type, String name);
+	//public List<Product> findByQuantityGreaterThan(int value);
 	
 	@Query("SELECT p from Product p JOIN FETCH p.category c JOIN FETCH c.type t WHERE p.productId = :id")
 	public Optional<Product> findProduct(@Param("id") Long id);
 	
-	//We need to add JOIN FETCH otherwise we gets error(Couldn't convert to JSON) 
 	@Query("SELECT p from Product p JOIN FETCH p.category c JOIN FETCH c.type t ")
 	public List<Product> findProducts();
 

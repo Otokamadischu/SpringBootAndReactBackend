@@ -40,19 +40,14 @@ public class Product implements Serializable {
 	
 	String name;
 	String description;
-
 	int quantity;
 	int size;
 	double price;
-
-
 	String path;
 	
 	public Product() {
 		
 	}
-	
-	
 
 	public Product(Long productId, Category category, String name, String description, int quantity, int size,
 			double price, String path) {

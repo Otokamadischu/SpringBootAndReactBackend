@@ -32,6 +32,7 @@ public class ManagmentController {
 
 	@GetMapping
 	public List<Product> getProductsManagment(){
+		
 		return productService.findProducts();
 	}
 	

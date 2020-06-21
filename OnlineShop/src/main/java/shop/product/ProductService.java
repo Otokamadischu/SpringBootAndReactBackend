@@ -29,19 +29,19 @@ public class ProductService {
 		return productRepository.findProducts();
 	}
 	
-	List<Product> findByQuantityGreaterThan(int value){
+	/*List<Product> findByQuantityGreaterThan(int value){
 		
 		return productRepository.findByQuantityGreaterThan(value);
-	}
+	}*/
 	
 	public Optional<Product> findProduct(long id) {
 		
 		return productRepository.findProduct(id);
 	}
 
-	public void save(Product product) {
+	public Product save(Product product) {
 		
-		productRepository.save(product);
+		return productRepository.save(product);
 	}
 	
 	public List<Product> findProductsByType(String typeName){
@@ -57,14 +57,4 @@ public class ProductService {
 		
 		productRepository.deleteById(id);
 	}
-
-	/*public List<Product> findAllByType(String type) {
-
-		return productRepository.findAllByType(type);
-	}*/
-	
-	/*public List<Product> findByTypeAndCategoryId(String type, String name){
-		
-		return productRepository.findByType_AndCategory_Name(type, name);
-	}*/
 }

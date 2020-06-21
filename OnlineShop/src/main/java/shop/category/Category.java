@@ -30,12 +30,10 @@ public class Category implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	Long categoryId;
 
-
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "typeId", nullable = false)
     Type type;
 	
-
 	@OneToMany(mappedBy="category", 
 			fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
@@ -44,7 +42,6 @@ public class Category implements Serializable {
 	
 	String name;
 	String description;
-	//picture
 	Boolean active;
 	
 	public Category() {
@@ -52,14 +49,25 @@ public class Category implements Serializable {
 	}
 	
 	public Category(Long categoryId, Type type, String name, String description, Boolean active) {
+		
 		super();
 		this.categoryId = categoryId;
 		this.type = type;
-
 		this.name = name;
 		this.description = description;
 		this.active = active;
 	}
+	
+	public void addProduct(Product product) {
+		product.setCategory(this);
+        this.product.add(product);
+        
+    }
+ 
+    public void removeProduct(Product product) {
+        this.product.remove(product);
+        product.setCategory(null);
+    }
 
 	public Long getCategoryId() {
 		return categoryId;
@@ -108,9 +116,4 @@ public class Category implements Serializable {
 	public void setActive(Boolean active) {
 		this.active = active;
 	}
-	
-	
-	
-	
-
 }
