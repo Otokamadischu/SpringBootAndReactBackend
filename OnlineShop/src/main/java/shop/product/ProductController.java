@@ -70,41 +70,6 @@ public class ProductController {
 	@GetMapping("/{categoryName}/{id}")
 	public Optional<Product> getProduct(@PathVariable Long id) {
 
-		return productService.findProduct(id);              
-	}
-
-	@PostMapping("/{category}")
-	public ResponseEntity<Void> createProduct(@PathVariable String category, @RequestBody Product product)
-	{
-
-		Category category2 = categoryService.findByName(category);
-		product.setCategory(category2);
-		productService.save(product);
-		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(product.getProductId())
-		        .toUri();
-	
-		return ResponseEntity.created(uri).build();
-	}
-	
-	@PutMapping("/{category}")
-	public ResponseEntity<Void> updateProduct(@PathVariable String category, @RequestBody Product product)
-	{
-
-		Category category2 = categoryService.findByName(category);
-		product.setCategory(category2);
-		productService.save(product);
-		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(product.getProductId())
-		        .toUri();
-	
-		return ResponseEntity.created(uri).build();
-	}
-	
-	@DeleteMapping("/{category}/{id}")
-	public void deleteProduct(@PathVariable Long id) {
-		
-		System.out.println("ddadw");
-		productService.delete(id);
+		return productService.findProduct(id);   
 	}
 }
